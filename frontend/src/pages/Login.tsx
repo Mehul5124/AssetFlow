@@ -105,8 +105,17 @@ export const Login: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Login error:', error)
-      const errorMsg = error.response?.data?.message || 'Invalid email or password. Please try again.'
-      toast(errorMsg, 'error')
+      let errorMsg = 'Invalid email or password. Please try again.'
+      if (error.message === 'AWAITING_APPROVAL') {
+        errorMsg = 'Your account is awaiting administrator approval. Please contact your administrator or try again later.'
+        toast(errorMsg, 'warning')
+      } else if (error.message === 'REJECTED') {
+        errorMsg = 'Your registration request has been rejected. Please contact the administrator.'
+        toast(errorMsg, 'error')
+      } else {
+        errorMsg = error.response?.data?.message || 'Invalid email or password. Please try again.'
+        toast(errorMsg, 'error')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -196,7 +205,7 @@ export const Login: React.FC = () => {
         <div className="w-full max-w-[420px] flex flex-col space-y-8 relative z-10">
           {/* Header */}
           <div className="text-center lg:text-left space-y-2">
-            <h2 className="text-2xl font-semibold tracking-tight text-white">
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
               Welcome back
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -205,7 +214,7 @@ export const Login: React.FC = () => {
           </div>
 
           {/* Form */}
-          <Card className="p-6 sm:p-8 bg-zinc-900/60 border-border/80 shadow-2xl glassmorphism">
+          <Card className="p-6 sm:p-8 bg-white dark:bg-zinc-900/60 border border-border/80 shadow-2xl dark:glassmorphism">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <Input
                 label="Work Email"
@@ -226,7 +235,7 @@ export const Login: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowForgotModal(true)}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+                    className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-medium transition-colors"
                   >
                     Forgot password?
                   </button>
@@ -277,7 +286,7 @@ export const Login: React.FC = () => {
             Don't have an account?{' '}
             <Link
               to="/signup"
-              className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
+              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-semibold transition-colors"
             >
               Request Access
             </Link>
@@ -304,14 +313,14 @@ export const Login: React.FC = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: 'spring', duration: 0.4 }}
-              className="relative w-full max-w-md bg-zinc-900 border border-border rounded-xl shadow-2xl overflow-hidden glassmorphism p-6 z-10"
+              className="relative w-full max-w-md bg-white dark:bg-zinc-900 border border-border rounded-xl shadow-2xl overflow-hidden dark:glassmorphism p-6 z-10"
             >
               <div className="flex items-center space-x-3 mb-4">
                 <div className="h-10 w-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
                   <KeyRound size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Reset Password</h3>
+                  <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Reset Password</h3>
                   <p className="text-xs text-muted-foreground">
                     Get a recovery link for your account
                   </p>

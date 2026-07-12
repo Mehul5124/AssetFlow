@@ -36,7 +36,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={inputType}
             className={twMerge(
               clsx(
-                'w-full h-11 px-4 text-sm bg-secondary/30 border border-border rounded-lg text-foreground premium-input',
+                'w-full h-11 px-4 text-sm bg-white dark:bg-secondary/30 border border-border rounded-lg text-foreground premium-input',
                 icon && 'pl-11',
                 isPassword && 'pr-11',
                 error && 'border-destructive/60 focus:ring-destructive/50 focus:border-destructive/60 bg-destructive/5',

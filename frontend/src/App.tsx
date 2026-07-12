@@ -5,6 +5,17 @@ import { ToastProvider } from './components/ui/toast'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 import { Dashboard } from './pages/Dashboard'
+import { DashboardLayout } from './components/DashboardLayout'
+import { AssetManagement } from './pages/AssetManagement'
+import { AssetDetails } from './pages/AssetDetails'
+import { AssetAllocation } from './pages/AssetAllocation'
+import { ResourceBooking } from './pages/ResourceBooking'
+import { Maintenance } from './pages/Maintenance'
+import { Audit } from './pages/Audit'
+import { Reports } from './pages/Reports'
+import { Notifications } from './pages/Notifications'
+import { OrgSetup } from './pages/OrgSetup'
+import { UserApprovals } from './pages/UserApprovals'
 
 // Loading screen helper
 const LoadingScreen: React.FC = () => (
@@ -39,26 +50,13 @@ const LoadingScreen: React.FC = () => (
 
 // Public Route Guard (Redirects logged-in users away from auth pages)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, loading, user } = useAuth()
-
+  const { isAuthenticated, loading } = useAuth()
   if (loading) {
     return <LoadingScreen />
   }
-
-  if (isAuthenticated && user) {
-    switch (user.role) {
-      case 'ADMIN':
-        return <Navigate to="/admin" replace />
-      case 'ASSET_MANAGER':
-        return <Navigate to="/asset-manager" replace />
-      case 'DEPARTMENT_HEAD':
-        return <Navigate to="/department-head" replace />
-      case 'EMPLOYEE':
-      default:
-        return <Navigate to="/employee" replace />
-    }
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />
   }
-
   return <>{children}</>
 }
 
@@ -78,46 +76,10 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: strin
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // Redirect user to their own valid dashboard route
-    switch (user.role) {
-      case 'ADMIN':
-        return <Navigate to="/admin" replace />
-      case 'ASSET_MANAGER':
-        return <Navigate to="/asset-manager" replace />
-      case 'DEPARTMENT_HEAD':
-        return <Navigate to="/department-head" replace />
-      case 'EMPLOYEE':
-      default:
-        return <Navigate to="/employee" replace />
-    }
+    return <Navigate to="/dashboard" replace />
   }
 
-  return <>{children}</>
-}
-
-// Dashboard Redirect Helper
-const DashboardRedirect: React.FC = () => {
-  const { isAuthenticated, loading, user } = useAuth()
-
-  if (loading) {
-    return <LoadingScreen />
-  }
-
-  if (!isAuthenticated || !user) {
-    return <Navigate to="/login" replace />
-  }
-
-  switch (user.role) {
-    case 'ADMIN':
-      return <Navigate to="/admin" replace />
-    case 'ASSET_MANAGER':
-      return <Navigate to="/asset-manager" replace />
-    case 'DEPARTMENT_HEAD':
-      return <Navigate to="/department-head" replace />
-    case 'EMPLOYEE':
-    default:
-      return <Navigate to="/employee" replace />
-  }
+  return <DashboardLayout>{children}</DashboardLayout>
 }
 
 // App routing and providers wrapper
@@ -143,42 +105,101 @@ const AppContent: React.FC = () => {
           }
         />
         
-        {/* Role-Specific Protected Routes */}
+        {/* Protected Dashboard & Module Routes */}
         <Route
-          path="/admin"
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/assets"
+          element={
+            <ProtectedRoute>
+              <AssetManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/assets/:id"
+          element={
+            <ProtectedRoute>
+              <AssetDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookings"
+          element={
+            <ProtectedRoute>
+              <ResourceBooking />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/allocations"
+          element={
+            <ProtectedRoute>
+              <AssetAllocation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/maintenance"
+          element={
+            <ProtectedRoute>
+              <Maintenance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/org-setup"
           element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
-              <Dashboard />
+              <OrgSetup />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/asset-manager"
+          path="/approvals"
           element={
-            <ProtectedRoute allowedRoles={['ASSET_MANAGER']}>
-              <Dashboard />
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <UserApprovals />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/department-head"
+          path="/audits"
           element={
-            <ProtectedRoute allowedRoles={['DEPARTMENT_HEAD']}>
-              <Dashboard />
+            <ProtectedRoute allowedRoles={['ADMIN', 'ASSET_MANAGER']}>
+              <Audit />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/employee"
+          path="/reports"
           element={
-            <ProtectedRoute allowedRoles={['EMPLOYEE']}>
-              <Dashboard />
+            <ProtectedRoute allowedRoles={['ADMIN', 'ASSET_MANAGER']}>
+              <Reports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
             </ProtectedRoute>
           }
         />
 
-        {/* Global Dashboard Redirect */}
-        <Route path="/dashboard" element={<DashboardRedirect />} />
+        {/* Legacy redirect routes for backwards compatibility */}
+        <Route path="/admin" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/asset-manager" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/department-head" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/employee" element={<Navigate to="/dashboard" replace />} />
 
         {/* Fallbacks */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
@@ -189,6 +210,26 @@ const AppContent: React.FC = () => {
 }
 
 function App() {
+  React.useEffect(() => {
+    const saved = localStorage.getItem('theme')
+    if (saved === 'light') {
+      document.documentElement.classList.add('light')
+      document.documentElement.classList.remove('dark')
+    } else if (saved === 'dark') {
+      document.documentElement.classList.add('dark')
+      document.documentElement.classList.remove('light')
+    } else {
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      if (systemPrefersDark) {
+        document.documentElement.classList.add('dark')
+        document.documentElement.classList.remove('light')
+      } else {
+        document.documentElement.classList.add('light')
+        document.documentElement.classList.remove('dark')
+      }
+    }
+  }, [])
+
   return (
     <ToastProvider>
       <AuthProvider>

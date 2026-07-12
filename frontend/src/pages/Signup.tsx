@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
-import { Mail, Lock, Shield, ArrowRight, User } from 'lucide-react'
+import { Mail, Lock, Shield, ArrowRight, User, CheckCircle2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../components/ui/toast'
@@ -34,6 +34,7 @@ export const Signup: React.FC = () => {
   const { toast } = useToast()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -75,8 +76,8 @@ export const Signup: React.FC = () => {
     setIsLoading(true)
     try {
       await signup(data.name, data.email, data.password)
-      toast('Account created successfully! Please sign in.', 'success')
-      navigate('/login')
+      toast('Account created successfully! Awaiting approval.', 'success')
+      setIsSuccess(true)
     } catch (error: any) {
       console.error('Signup error:', error)
       const errorMsg = error.response?.data?.message || 'Failed to create account. Check details or try again later.'
@@ -84,6 +85,30 @@ export const Signup: React.FC = () => {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6 text-foreground bg-background w-full relative">
+        {/* Mobile decorative gradient background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.08),transparent_50%)] pointer-events-none" />
+        
+        <Card className="w-full max-w-[420px] p-6 sm:p-8 bg-white dark:bg-zinc-900 border border-border/80 rounded-xl shadow-2xl relative z-10 text-center space-y-6">
+          <div className="mx-auto h-16 w-16 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <CheckCircle2 size={32} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Account Created</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              Your account has been created successfully and is awaiting administrator approval. You will be able to log in once your account has been approved.
+            </p>
+          </div>
+          <Button onClick={() => navigate('/login')} className="w-full h-11 text-sm font-semibold">
+            Back to Login
+          </Button>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -148,7 +173,7 @@ export const Signup: React.FC = () => {
         <div className="w-full max-w-[420px] flex flex-col space-y-8 relative z-10">
           {/* Header */}
           <div className="text-center lg:text-left space-y-2">
-            <h2 className="text-2xl font-semibold tracking-tight text-white">
+            <h2 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-white">
               Create your account
             </h2>
             <p className="text-sm text-muted-foreground">
@@ -157,7 +182,7 @@ export const Signup: React.FC = () => {
           </div>
 
           {/* Form */}
-          <Card className="p-6 sm:p-8 bg-zinc-900/60 border-border/80 shadow-2xl glassmorphism">
+          <Card className="p-6 sm:p-8 bg-white dark:bg-zinc-900/60 border border-border/80 shadow-2xl dark:glassmorphism">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <Input
                 label="Full Name"
@@ -221,7 +246,7 @@ export const Signup: React.FC = () => {
             Already have an account?{' '}
             <Link
               to="/login"
-              className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
+              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-semibold transition-colors"
             >
               Sign In
             </Link>

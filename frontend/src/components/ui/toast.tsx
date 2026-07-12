@@ -63,10 +63,10 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   }
 
   const bgColors = {
-    success: 'bg-zinc-900 border-emerald-500/30 text-zinc-100',
-    error: 'bg-zinc-900 border-rose-500/30 text-zinc-100',
-    info: 'bg-zinc-900 border-blue-500/30 text-zinc-100',
-    warning: 'bg-zinc-900 border-amber-500/30 text-zinc-100',
+    success: 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-emerald-500/30 text-zinc-900 dark:text-zinc-100',
+    error: 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-rose-500/30 text-zinc-900 dark:text-zinc-100',
+    info: 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-blue-500/30 text-zinc-900 dark:text-zinc-100',
+    warning: 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-amber-500/30 text-zinc-900 dark:text-zinc-100',
   }
 
   return (
@@ -75,7 +75,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.85, transition: { duration: 0.15 } }}
-      className={`pointer-events-auto flex items-start p-4 border rounded-xl shadow-lg shadow-black/30 glassmorphism ${bgColors[toast.type]}`}
+      className={`pointer-events-auto flex items-start p-4 border rounded-xl shadow-lg shadow-black/10 dark:shadow-black/40 ${bgColors[toast.type]}`}
     >
       <div className="flex items-start space-x-3 w-full">
         {icons[toast.type]}

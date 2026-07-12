@@ -66,7 +66,89 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeAuth()
   }, [])
 
+  const getApprovals = (): any[] => {
+    const data = localStorage.getItem('assetflow_approvals')
+    if (!data) {
+      const initialSeed = [
+        {
+          id: 'app-1',
+          name: 'Arjun Mehta',
+          email: 'arjun.mehta@company.com',
+          role: 'EMPLOYEE',
+          createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'PENDING'
+        },
+        {
+          id: 'app-2',
+          name: 'Sara Khan',
+          email: 'sara.khan@company.com',
+          role: 'EMPLOYEE',
+          createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'PENDING'
+        },
+        {
+          id: 'app-3',
+          name: 'Rohan Sharma',
+          email: 'rohan.sharma@company.com',
+          role: 'EMPLOYEE',
+          createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'APPROVED'
+        },
+        {
+          id: 'app-4',
+          name: 'Neha Gupta',
+          email: 'neha.gupta@company.com',
+          role: 'EMPLOYEE',
+          createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'REJECTED'
+        }
+      ]
+      localStorage.setItem('assetflow_approvals', JSON.stringify(initialSeed))
+      return initialSeed
+    }
+    try {
+      return JSON.parse(data)
+    } catch {
+      return []
+    }
+  }
+
+  const getUserApprovalStatus = (email: string): 'PENDING' | 'APPROVED' | 'REJECTED' => {
+    const list = getApprovals()
+    const found = list.find((u) => u.email.toLowerCase() === email.toLowerCase())
+    if (!found) {
+      return 'APPROVED'
+    }
+    return found.status
+  }
+
+  const addUserToApprovals = (name: string, email: string) => {
+    const list = getApprovals()
+    const exists = list.some((u) => u.email.toLowerCase() === email.toLowerCase())
+    if (!exists) {
+      const newUser = {
+        id: 'app-' + Math.random().toString(36).substring(2, 9),
+        name,
+        email,
+        role: 'EMPLOYEE',
+        createdAt: new Date().toISOString(),
+        status: 'PENDING'
+      }
+      list.unshift(newUser)
+      localStorage.setItem('assetflow_approvals', JSON.stringify(list))
+    }
+  }
+
   const login = async (email: string, password: string): Promise<User> => {
+    // Intercept with approvals check
+    const status = getUserApprovalStatus(email)
+    if (status === 'PENDING') {
+      throw new Error('AWAITING_APPROVAL')
+    }
+    if (status === 'REJECTED') {
+      throw new Error('REJECTED')
+    }
+
     try {
       const response = await api.post('/auth/login', { email, password })
       // Response shape: { data: { token: "...", user: { ... } } }
@@ -88,6 +170,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (name: string, email: string, password: string) => {
     try {
       await api.post('/auth/signup', { name, email, password })
+      // Record user request status to Pending Approvals queue
+      addUserToApprovals(name, email)
     } catch (error) {
       throw error
     }

@@ -4,6 +4,29 @@
 
 @layer base {
   :root {
+    --background: 210 40% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 3.8% 46.1%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5% 64.9%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 6%;
@@ -23,29 +46,6 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --radius: 0.75rem;
-  }
-
-  .light {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 3.8% 46.1%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5% 64.9%;
     --radius: 0.75rem;
   }
 }
@@ -93,3 +93,26 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Style all select options globally for light mode legibility */
+select option {
+  background-color: #ffffff !important; /* white background */
+  color: #18181b !important;            /* dark text zinc-900 */
+}
+
+/* Style select options in dark mode */
+.dark select option {
+  background-color: #09090b !important; /* solid zinc-950 background */
+  color: #f4f4f5 !important;            /* light text */
+}
+
+select {
+  color: hsl(var(--foreground));
+}
+
+/* Page transitions for theme switcher */
+body, header, aside, main, div, button, input, select, textarea, span, p, h1, h2, h3, h4, h5, h6, table, tr, th, td {
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
