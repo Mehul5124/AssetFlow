@@ -14,13 +14,13 @@ This document tracks our progress in building the backend APIs for the 10 core s
 
 ## 🟡 3. Organization Setup (Admin Only)
 **Tab A - Department Management**
-- [ ] Create/edit/deactivate departments
-- [ ] Assign hierarchy (Parent/Child) and Department Heads
+- [x] Create/edit/deactivate departments
+- [x] Assign hierarchy (Parent/Child) and Department Heads
 **Tab B - Asset Category Management**
-- [ ] Create/edit categories with optional extra fields
+- [x] Create/edit categories with optional extra fields
 **Tab C - Employee Directory**
-- [ ] View all employees with filtering
-- [ ] `PATCH /api/employees/:id/role`: Admin promotes users to Dept Head / Asset Manager
+- [x] View all employees with filtering
+- [x] `PATCH /api/employees/:id/role`: Admin promotes users to Dept Head / Asset Manager
 
 ## ⚪ 4. Asset Registration & Directory
 - [ ] `POST /api/assets`: Register asset, auto-generate tag (e.g., AF-0001)

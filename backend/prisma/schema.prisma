@@ -119,6 +119,7 @@ model Department {
 model AssetCategory {
   id          String       @id @default(uuid())
   name        String       @unique
+  description String?
   extraFields Json?
 
   // Relations

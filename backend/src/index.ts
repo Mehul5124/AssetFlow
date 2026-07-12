@@ -21,9 +21,15 @@ app.get('/api', (req, res) => {
 });
 
 import authRoutes from './routes/auth.routes';
+import departmentRoutes from './routes/department.routes';
+import categoryRoutes from './routes/category.routes';
+import employeeRoutes from './routes/employee.routes';
 
 // Mount routes here
 app.use('/api/auth', authRoutes);
+app.use('/api/departments', departmentRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/employees', employeeRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
