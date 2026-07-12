@@ -8,9 +8,9 @@ This document tracks our progress in building the backend APIs for the 10 core s
 - [x] `GET /api/auth/me`: Session validation (protected route)
 - [x] `POST /api/auth/forgot-password`: Password reset token generation
 
-## 🟡 2. Dashboard / Home Screen
-- [ ] `GET /api/dashboard/kpis`: Aggregate counts (Available, Allocated, Maintenance, etc.)
-- [ ] Highlight overdue returns (Expected Return Date < Today)
+## 🟢 2. Dashboard / Home Screen
+- [x] `GET /api/dashboard/kpis`: Aggregate counts (Available, Allocated, Maintenance, etc.)
+- [x] Highlight overdue returns (Handled via `GET /api/allocations/overdue`)
 
 ## 🟡 3. Organization Setup (Admin Only)
 **Tab A - Department Management**
@@ -45,14 +45,15 @@ This document tracks our progress in building the backend APIs for the 10 core s
 - [x] `PATCH /api/maintenance/:id/resolve`: Resolve request (auto-updates asset to Available)
 
 ## ⚪ 8. Asset Audit (Stretch Goal)
-- [ ] Create Audit Cycle (date range, scope)
-- [ ] Assign Auditors
-- [ ] Log verified/missing/damaged items per cycle
-- [ ] Generate discrepancy reports & close cycle (updates missing to 'Lost')
+- [x] Create Audit Cycle (date range, scope)
+- [x] Assign Auditors
+- [x] Log verified/missing/damaged items per cycle
+- [x] Generate discrepancy reports & close cycle (updates missing to 'Lost')
 
-## ⚪ 9. Reports & Analytics (Stretch Goal)
-- [ ] Utilization trends and heatmap queries
-- [ ] Maintenance frequency and department allocation aggregations
+## 🟢 9. Reports & Analytics (Stretch Goal)
+- [x] Utilization trends and heatmap queries (Top most used assets)
+- [x] Maintenance frequency and department allocation aggregations
+- [x] Served securely via `/api/dashboard/analytics`s
 
 ## ⚪ 10. Activity Logs & Notifications
 - [ ] Trigger notifications for bookings, approvals, and overdue alerts

@@ -29,6 +29,8 @@ import allocationRoutes from './routes/allocation.routes';
 import transferRoutes from './routes/transfer.routes';
 import bookingRoutes from './routes/booking.routes';
 import maintenanceRoutes from './routes/maintenance.routes';
+import auditRoutes from './routes/audit.routes';
+import dashboardRoutes from './routes/dashboard.routes';
 
 // Mount routes here
 app.use('/api/auth', authRoutes);
@@ -40,6 +42,8 @@ app.use('/api/allocations', allocationRoutes);
 app.use('/api/transfers', transferRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
+app.use('/api/audits', auditRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
