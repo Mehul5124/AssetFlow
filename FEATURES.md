@@ -23,26 +23,26 @@ This document tracks our progress in building the backend APIs for the 10 core s
 - [x] `PATCH /api/employees/:id/role`: Admin promotes users to Dept Head / Asset Manager
 
 ## ⚪ 4. Asset Registration & Directory
-- [ ] `POST /api/assets`: Register asset, auto-generate tag (e.g., AF-0001)
-- [ ] `GET /api/assets`: Search/filter by tag, serial, category, etc.
-- [ ] `GET /api/assets/:id`: View asset details, lifecycle status, and history (allocation + maintenance)
+- [x] `POST /api/assets`: Register asset, auto-generate tag (e.g., AF-0001)
+- [x] `GET /api/assets`: Search/filter by tag, serial, category, etc.
+- [x] `GET /api/assets/:id`: View asset details, lifecycle status, and history (allocation + maintenance)
 
 ## ⚪ 5. Asset Allocation & Transfer
-- [ ] `POST /api/allocations`: Allocate asset (with **hard conflict rule** preventing double-allocation)
-- [ ] `POST /api/allocations/:id/return`: Mark returned, update condition notes, revert to Available
-- [ ] `POST /api/transfers`: Initiate transfer workflow
-- [ ] `PATCH /api/transfers/:id/approve`: Approve transfer and auto-reallocate
-- [ ] Auto-flag overdue allocations
+- [x] `POST /api/allocations`: Allocate asset (with **hard conflict rule** preventing double-allocation)
+- [x] `POST /api/allocations/:id/return`: Mark returned, update condition notes, revert to Available
+- [x] `POST /api/transfers`: Initiate transfer workflow
+- [x] `PATCH /api/transfers/:id/approve`: Approve transfer and auto-reallocate
+- [x] Auto-flag overdue allocations
 
 ## ⚪ 6. Resource Booking
-- [ ] `POST /api/bookings`: Book time slot (with **hard overlap validation** preventing double-booking)
-- [ ] `GET /api/bookings`: View calendar bookings for a resource
-- [ ] `PATCH /api/bookings/:id/cancel`: Cancel or reschedule
+- [x] `POST /api/bookings`: Book time slot (with **hard overlap validation** preventing double-booking)
+- [x] `GET /api/bookings`: View calendar bookings for a resource
+- [x] `PATCH /api/bookings/:id/cancel`: Cancel or reschedule
 
 ## ⚪ 7. Maintenance Management
-- [ ] `POST /api/maintenance`: Raise repair request with priority and photos
-- [ ] `PATCH /api/maintenance/:id/approve`: Approve/reject request (auto-updates asset to Under Maintenance)
-- [ ] `PATCH /api/maintenance/:id/resolve`: Resolve request (auto-updates asset to Available)
+- [x] `POST /api/maintenance`: Raise repair request with priority and photos
+- [x] `PATCH /api/maintenance/:id/approve`: Approve/reject request (auto-updates asset to Under Maintenance)
+- [x] `PATCH /api/maintenance/:id/resolve`: Resolve request (auto-updates asset to Available)
 
 ## ⚪ 8. Asset Audit (Stretch Goal)
 - [ ] Create Audit Cycle (date range, scope)

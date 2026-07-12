@@ -24,12 +24,22 @@ import authRoutes from './routes/auth.routes';
 import departmentRoutes from './routes/department.routes';
 import categoryRoutes from './routes/category.routes';
 import employeeRoutes from './routes/employee.routes';
+import assetRoutes from './routes/asset.routes';
+import allocationRoutes from './routes/allocation.routes';
+import transferRoutes from './routes/transfer.routes';
+import bookingRoutes from './routes/booking.routes';
+import maintenanceRoutes from './routes/maintenance.routes';
 
 // Mount routes here
 app.use('/api/auth', authRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/employees', employeeRoutes);
+app.use('/api/assets', assetRoutes);
+app.use('/api/allocations', allocationRoutes);
+app.use('/api/transfers', transferRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
