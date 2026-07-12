@@ -33,8 +33,8 @@ export const updateEmployeeRole = async (req: Request, res: Response) => {
     }
 
     const employee = await prisma.user.update({
-      where: { id },
-      data: { role },
+      where: { id: id as string },
+      data: { role: role as Role },
       select: { id: true, name: true, email: true, role: true, departmentId: true }
     });
     

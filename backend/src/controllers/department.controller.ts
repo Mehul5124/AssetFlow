@@ -36,7 +36,7 @@ export const updateDepartment = async (req: Request, res: Response) => {
     const { name, headId, parentId, status } = req.body;
 
     const department = await prisma.department.update({
-      where: { id },
+      where: { id: id as string },
       data: { name, headId, parentId, status }
     });
     res.status(200).json({ data: department });
@@ -55,7 +55,7 @@ export const updateDepartmentStatus = async (req: Request, res: Response) => {
     }
 
     const department = await prisma.department.update({
-      where: { id },
+      where: { id: id as string },
       data: { status }
     });
     res.status(200).json({ data: department });

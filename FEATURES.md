@@ -55,6 +55,6 @@ This document tracks our progress in building the backend APIs for the 10 core s
 - [x] Maintenance frequency and department allocation aggregations
 - [x] Served securely via `/api/dashboard/analytics`s
 
-## ⚪ 10. Activity Logs & Notifications
-- [ ] Trigger notifications for bookings, approvals, and overdue alerts
-- [ ] Global activity logging middleware for Admin auditing
+## 🟢 10. Activity Logs & Notifications
+- [x] Trigger notifications for bookings, approvals, and overdue alerts
+- [x] Global activity logging middleware for Admin auditing

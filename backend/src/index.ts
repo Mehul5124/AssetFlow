@@ -31,6 +31,11 @@ import bookingRoutes from './routes/booking.routes';
 import maintenanceRoutes from './routes/maintenance.routes';
 import auditRoutes from './routes/audit.routes';
 import dashboardRoutes from './routes/dashboard.routes';
+import notificationRoutes from './routes/notification.routes';
+import { activityLogger } from './middlewares/activityLog.middleware';
+
+// Apply global activity logger to all API routes
+app.use('/api', activityLogger);
 
 // Mount routes here
 app.use('/api/auth', authRoutes);
@@ -44,6 +49,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/audits', auditRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
